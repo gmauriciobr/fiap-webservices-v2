@@ -2,6 +2,7 @@ package br.com.fiap.view;
 
 import br.com.fiap.model.Ponto;
 import java.time.Instant;
+import java.util.Optional;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
@@ -16,5 +17,6 @@ public class PontoViewModel {
 
     public PontoViewModel(Ponto ponto) {
         BeanUtils.copyProperties(ponto, this);
+        this.observacao = Optional.ofNullable(ponto.getJustificativa()).orElse(null);
     }
 }

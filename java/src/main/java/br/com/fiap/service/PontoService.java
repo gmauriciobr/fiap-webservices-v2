@@ -39,7 +39,9 @@ public class PontoService {
     }
 
     public Ponto ponto() {
-        return pontoRepository.save(new Ponto(new Usuario(SecurityUtils.getUsuarioLogado().getId()), Instant.now()));
+        var ponto = new Ponto();
+        ponto.setMarcacao(Instant.now());
+        return salvar(ponto);
     }
 
     public List<Ponto> pontos(LocalDate dataInicio, LocalDate dataFim) {
@@ -58,6 +60,11 @@ public class PontoService {
 
     public Ponto justifica(JustificaPontoDTO dto) {
         var ponto = JustificaPontoDTO.parse(dto);
+        return salvar(ponto);
+    }
+
+    public Ponto salvar(Ponto ponto) {
+        ponto.setUsuario(new Usuario(SecurityUtils.getUsuarioLogado().getId()));
         return pontoRepository.save(ponto);
     }
 

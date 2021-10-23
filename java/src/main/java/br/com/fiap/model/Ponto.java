@@ -34,9 +34,4 @@ public class Ponto {
     @LastModifiedDate
     private Instant dataAlteracao;
 
-    public Ponto(Usuario usuario, Instant marcacao) {
-        this.usuario = usuario;
-        this.marcacao = marcacao;
-    }
-
 }
