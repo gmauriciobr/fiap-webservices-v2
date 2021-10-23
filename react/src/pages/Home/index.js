@@ -1,46 +1,43 @@
-import "./customStyles.css"
-import "react-datepicker/dist/react-datepicker.css"
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router-dom"
-import styled from "styled-components"
-import { FaPlus } from "react-icons/fa"
-import { MdArrowDownward } from "react-icons/md"
-import { format, subDays } from "date-fns"
-import { Collapse } from "react-collapse"
-
-import Button from "../../components/Button"
-import ContainerMain from "../../components/ContainerMain"
-import Wrapper from "../../components/Wrapper"
-import WrapperFlex from "../../components/WrapperFlex"
-import WrapperCard from "../../components/WrapperCard"
-import Card from "../../components/Card"
-import WrapperButton from "../../components/WrapperButton"
-import ItemHeader from "../../components/ItemHeader"
-import { Creators as UserActions } from "../../store/ducks/user"
-import ContentWrapper from "../../components/ContentWrapper"
-import Content from "../../components/Content"
+import { format, subDays } from "date-fns";
+import React, { useEffect, useState } from "react";
+import { Collapse } from "react-collapse";
+import "react-datepicker/dist/react-datepicker.css";
+import { FaPlus } from "react-icons/fa";
+import { MdArrowDownward } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Button from "../../components/Button";
+import Card from "../../components/Card";
+import ContainerMain from "../../components/ContainerMain";
+import Content from "../../components/Content";
+import ContentWrapper from "../../components/ContentWrapper";
+import ItemHeader from "../../components/ItemHeader";
+import Wrapper from "../../components/Wrapper";
+import WrapperCard from "../../components/WrapperCard";
+import WrapperFlex from "../../components/WrapperFlex";
+import { Creators as UserActions } from "../../store/ducks/user";
+import "./customStyles.css";
 
 export default function Home() {
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { data } = useSelector((state) => state.user)
+  const { data } = useSelector((state) => state.user);
 
-  const [collapse, setCollapse] = useState(false)
+  const [collapse, setCollapse] = useState(false);
 
   const handleAppointNow = () => {
-    const date = format(new Date(), "yyyy-MM-dd")
+    const date = format(new Date(), "yyyy-MM-dd");
 
-    dispatch(UserActions.createAppointmentRequest(date))
-  }
+    dispatch(UserActions.createAppointmentRequest(date));
+  };
 
   useEffect(() => {
-    const initialDate = format(subDays(new Date(), 30), "yyyy-MM-dd")
-    const finalDate = format(new Date(), "yyyy-MM-dd")
+    const initialDate = format(subDays(new Date(), 30), "yyyy-MM-dd");
+    const finalDate = format(new Date(), "yyyy-MM-dd");
 
-    dispatch(UserActions.getAppointmentsRequest(initialDate, finalDate))
-  }, [])
+    dispatch(UserActions.getAppointmentsRequest(initialDate, finalDate));
+  }, []);
 
   return (
     <ContainerMain>
@@ -63,6 +60,9 @@ export default function Home() {
             >
               <FaPlus /> Bater ponto agora
             </Button>
+            <Button onClick={() => history.push("/register")}>
+              <FaPlus /> Adicionar Batida
+            </Button>
           </WrapperFlex>
         ) : (
           <>
@@ -72,17 +72,17 @@ export default function Home() {
               <Button onClick={() => handleAppointNow()}>
                 <FaPlus /> Bater ponto agora
               </Button>
+              <Button onClick={() => history.push("/register")}>
+                <FaPlus /> Adicionar Batida
+              </Button>
             </WrapperFlex>
 
             <WrapperCard>
               {data.map((d) => (
                 <Card key={d.id}>
-                  <WrapperButton>
-                    <Button onClick={() => history.push("/register")}>
-                      <FaPlus /> Adicionar Batida
-                    </Button>
-                  </WrapperButton>
-                  <ItemHeader>Data: {d.data}</ItemHeader>
+                  <ItemHeader>
+                    Data: {format(new Date(d.data), "dd/MM/yyyy")}
+                  </ItemHeader>
                   <ItemHeader>
                     Horas trabalhadas: {d.horasTrabalhadas}
                   </ItemHeader>
@@ -98,7 +98,10 @@ export default function Home() {
                         <Content key={item.id}>
                           <ItemHeader>
                             Marcação:{" "}
-                            {format(new Date(item.marcacao), "dd-MM-yyy:HH:mm")}
+                            {format(
+                              new Date(item.marcacao),
+                              "dd/MM/yyy - HH:mm"
+                            )}
                           </ItemHeader>
                           <ItemHeader>
                             Observação: {item.observacao || "Sem observações"}
@@ -114,5 +117,5 @@ export default function Home() {
         )}
       </Wrapper>
     </ContainerMain>
-  )
+  );
 }
