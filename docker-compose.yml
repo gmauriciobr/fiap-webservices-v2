@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-network
+    command: --lower_case_table_names=0
+    environment:
+      MYSQL_ROOT_PASSWORD: fiap
+      MYSQL_DATABASE: dotdb
+      MYSQL_USER: fiap
+      MYSQL_PASSWORD: fiap
+
+  api:
+    build:
+      dockerfile: ./docker/api.dockerfile
+      context: .
+    image: grupo03/api
+    container_name: api
+    ports:
+      - 11080:11080
+    networks:
+      - spring-network
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      PORT: 11080
+    depends_on:
+      - mysql
+    restart: on-failure:10
+
+  app:
+    build:
+      dockerfile: ./docker/app.dockerfile
+      context: .
+    image: grupo03/app
+    container_name: app
+    ports:
+      - 8080:80
+    depends_on:
+      - api
+    restart: on-failure:10
+
+networks:
+  spring-network:
+    driver: bridge

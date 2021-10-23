@@ -1,0 +1,20 @@
+.ReactModal__Content ReactModal__Content--after-open {
+  background: #e7e7e7;
+  border-radius: 15px;
+  padding: 30px 10px;
+  top: 20%;
+  height: 500px;
+  left: 35%;
+  width: 462px;
+  overflow: hidden;
+}
+
+.ReactModal__Overlay ReactModal__Overlay--after-open {
+   background-color: rgba(64, 59, 56, 0.7);
+   backdrop-filter: blur(3px);
+   z-index: 2;
+}
+
+.ReactCollapse--collapse {
+  width: 100%;
+}

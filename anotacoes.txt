@@ -1,0 +1,1 @@
+docker run -d --rm -p 3306:3306 -e MYSQL_ROOT_PASSWORD="fiap" -e MYSQL_USER="fiap" -e MYSQL_PASSWORD="fiap" -e MYSQL_DATABASE="dotdb" --name mysql mysql:8

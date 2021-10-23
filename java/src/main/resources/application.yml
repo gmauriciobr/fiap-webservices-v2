@@ -1,0 +1,22 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/dotdb?allowPublicKeyRetrieval=true
+    username: fiap
+    password: fiap
+
+  jpa:
+    hibernate:
+#      dialect: org.hibernate.dialect.MySQL8Dialect
+      ddl-auto: validate
+    show-sql: true
+
+  flyway:
+    locations: classpath:migrations
+    baseline-on-migrate: true
+
+jwt:
+  chave: "fiap"
+  expire: 1
