@@ -8,6 +8,12 @@ export const Types = {
   CREATE_APPOINTMENT_REQUEST: "user/CREATE_APPOINTMENT_REQUEST",
   CREATE_APPOINTMENT_SUCCESS: "user/CREATE_APPOINTMENT_SUCCESS",
   CREATE_APPOINTMENT_ERROR: "user/CREATE_APPOINTMENT_ERROR",
+  CREATE_AND_JUSTIFY_APPOINTMENT_REQUEST:
+    "user/CREATE_AND_JUSTIFY_APPOINTMENT_REQUEST",
+  CREATE_AND_JUSTIFY_APPOINTMENT_SUCCESS:
+    "user/CREATE_AND_JUSTIFY_APPOINTMENT_SUCCESS",
+  CREATE_AND_JUSTIFY_APPOINTMENT_ERROR:
+    "user/CREATE_AND_JUSTIFY_APPOINTMENT_ERROR",
   CREATE_USER_REQUEST: "user/CREATE_USER_REQUEST",
   CREATE_USER_SUCCESS: "user/CREATE_USER_SUCCESS",
   CREATE_USER_ERROR: "user/CREATE_USER_ERROR",
@@ -48,6 +54,15 @@ export default function user(state = INITIAL_STATE, action) {
     case Types.CREATE_APPOINTMENT_ERROR:
       return { ...state, loading: false, hasError: true }
 
+    case Types.CREATE_AND_JUSTIFY_APPOINTMENT_REQUEST:
+      return { ...state, loading: true, hasError: false }
+
+    case Types.CREATE_AND_JUSTIFY_APPOINTMENT_SUCCESS:
+      return { ...state, loading: false, hasError: false }
+
+    case Types.CREATE_AND_JUSTIFY_APPOINTMENT_ERROR:
+      return { ...state, loading: false, hasError: true }
+
     case Types.CREATE_USER_REQUEST:
       return { ...state, loading: true, hasError: false }
 
@@ -82,16 +97,25 @@ export const Creators = {
   }),
   loginSuccess: () => ({ type: Types.LOGIN_SUCCESS }),
   loginError: () => ({ type: Types.LOGIN_ERROR }),
-  createAppointmentRequest: (date, comment) => ({
+  createAppointmentRequest: () => ({
     type: Types.CREATE_APPOINTMENT_REQUEST,
-    date,
-    comment,
   }),
   createAppointmentSuccess: () => ({
     type: Types.CREATE_APPOINTMENT_SUCCESS,
   }),
   createAppointmentError: () => ({
     type: Types.CREATE_APPOINTMENT_SUCCESS,
+  }),
+  createAndJustifyAppointmentRequest: (date, comment) => ({
+    type: Types.CREATE_AND_JUSTIFY_APPOINTMENT_REQUEST,
+    date,
+    comment,
+  }),
+  createAndJustifyAppointmentSuccess: () => ({
+    type: Types.CREATE_AND_JUSTIFY_APPOINTMENT_SUCCESS,
+  }),
+  createAndJustifyAppointmentError: () => ({
+    type: Types.CREATE_AND_JUSTIFY_APPOINTMENT_ERROR,
   }),
   createUserRequest: (nome, email, password) => ({
     type: Types.CREATE_USER_REQUEST,

@@ -1,5 +1,6 @@
 import { call, put } from "redux-saga/effects"
 import qs from "qs"
+import { format, subDays } from "date-fns"
 import { saveToken } from "../../services/auth"
 import api from "../../services/api"
 import history from "../../services/history"
@@ -43,18 +44,39 @@ export function* getAppointments(action) {
   }
 }
 
-export function* createAppointment(action) {
+export function* createAppointment() {
   try {
-    const { date, comment } = action
+    const initialDate = format(subDays(new Date(), 30), "yyyy-MM-dd")
+    const finalDate = format(new Date(), "yyyy-MM-dd")
 
-    const response = yield call(api.post, `/ponto`, { date, comment })
+    const response = yield call(api.post, `/ponto`)
 
     if (response.status === 201) {
       yield put(UserActions.createAppointmentSuccess())
-      history.push("/home")
+      yield put(UserActions.getAppointmentsRequest(initialDate, finalDate))
     }
   } catch (error) {
     yield put(UserActions.getAppointmentsError())
+  }
+}
+
+export function* createAndJustifyAppointment(action) {
+  try {
+    const { date, comment } = action
+
+    console.log(date)
+
+    const response = yield call(api.post, `/ponto/justifica`, {
+      marcacao: date,
+      justificativa: comment,
+    })
+
+    if (response.status === 201) {
+      yield put(UserActions.createAndJustifyAppointmentSuccess())
+      history.push("/home")
+    }
+  } catch (error) {
+    yield put(UserActions.createAndJustifyAppointmentError())
   }
 }
 
