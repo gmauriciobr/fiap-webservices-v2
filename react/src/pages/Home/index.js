@@ -1,43 +1,44 @@
-import { format, subDays } from "date-fns";
-import React, { useEffect, useState } from "react";
-import { Collapse } from "react-collapse";
-import "react-datepicker/dist/react-datepicker.css";
-import { FaPlus } from "react-icons/fa";
-import { MdArrowDownward } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Button from "../../components/Button";
-import Card from "../../components/Card";
-import ContainerMain from "../../components/ContainerMain";
-import Content from "../../components/Content";
-import ContentWrapper from "../../components/ContentWrapper";
-import ItemHeader from "../../components/ItemHeader";
-import Wrapper from "../../components/Wrapper";
-import WrapperCard from "../../components/WrapperCard";
-import WrapperFlex from "../../components/WrapperFlex";
-import { Creators as UserActions } from "../../store/ducks/user";
-import "./customStyles.css";
+import { format, subDays } from "date-fns"
+import React, { useEffect, useState } from "react"
+import { Collapse } from "react-collapse"
+import "react-datepicker/dist/react-datepicker.css"
+import { FaPlus } from "react-icons/fa"
+import { MdArrowDownward } from "react-icons/md"
+import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
+import Button from "../../components/Button"
+import Card from "../../components/Card"
+import ContainerMain from "../../components/ContainerMain"
+import Content from "../../components/Content"
+import ContentWrapper from "../../components/ContentWrapper"
+import ItemHeader from "../../components/ItemHeader"
+import Wrapper from "../../components/Wrapper"
+import WrapperCard from "../../components/WrapperCard"
+import WrapperFlex from "../../components/WrapperFlex"
+import { Creators as UserActions } from "../../store/ducks/user"
+import "./customStyles.css"
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const dispatch = useDispatch()
+  const history = useHistory()
 
-  const { data } = useSelector((state) => state.user);
+  const { data } = useSelector((state) => state.user)
 
-  const [collapse, setCollapse] = useState(false);
+  const [collapse, setCollapse] = useState(false)
+  const [activeId, setActiveId] = useState(null)
 
   const handleAppointNow = () => {
-    const date = format(new Date(), "yyyy-MM-dd");
+    const date = format(new Date(), "yyyy-MM-dd")
 
-    dispatch(UserActions.createAppointmentRequest(date));
-  };
+    dispatch(UserActions.createAppointmentRequest(date))
+  }
 
   useEffect(() => {
-    const initialDate = format(subDays(new Date(), 30), "yyyy-MM-dd");
-    const finalDate = format(new Date(), "yyyy-MM-dd");
+    const initialDate = format(subDays(new Date(), 30), "yyyy-MM-dd")
+    const finalDate = format(new Date(), "yyyy-MM-dd")
 
-    dispatch(UserActions.getAppointmentsRequest(initialDate, finalDate));
-  }, []);
+    dispatch(UserActions.getAppointmentsRequest(initialDate, finalDate))
+  }, [])
 
   return (
     <ContainerMain>
@@ -60,7 +61,10 @@ export default function Home() {
             >
               <FaPlus /> Bater ponto agora
             </Button>
-            <Button onClick={() => history.push("/register")}>
+            <Button
+              style={{ width: "300px", marginTop: "15px" }}
+              onClick={() => history.push("/register")}
+            >
               <FaPlus /> Adicionar Batida
             </Button>
           </WrapperFlex>
@@ -90,9 +94,14 @@ export default function Home() {
                     Quantidade de Marcações: {d.quantidadeMarcacoes}
                   </ItemHeader>
                   <div style={{ cursor: "pointer" }}>
-                    <MdArrowDownward onClick={() => setCollapse(!collapse)} />
+                    <MdArrowDownward
+                      onClick={() => {
+                        setActiveId(d.id)
+                        setCollapse(!collapse)
+                      }}
+                    />
                   </div>
-                  <Collapse isOpened={collapse}>
+                  <Collapse isOpened={collapse && activeId === d.id}>
                     <ContentWrapper>
                       {d.itens.map((item) => (
                         <Content key={item.id}>
@@ -117,5 +126,5 @@ export default function Home() {
         )}
       </Wrapper>
     </ContainerMain>
-  );
+  )
 }
