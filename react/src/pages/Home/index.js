@@ -1,44 +1,44 @@
-import { format, subDays } from "date-fns"
-import React, { useEffect, useState } from "react"
-import { Collapse } from "react-collapse"
-import "react-datepicker/dist/react-datepicker.css"
-import { FaPlus } from "react-icons/fa"
-import { MdArrowDownward } from "react-icons/md"
-import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router-dom"
-import Button from "../../components/Button"
-import Card from "../../components/Card"
-import ContainerMain from "../../components/ContainerMain"
-import Content from "../../components/Content"
-import ContentWrapper from "../../components/ContentWrapper"
-import ItemHeader from "../../components/ItemHeader"
-import Wrapper from "../../components/Wrapper"
-import WrapperCard from "../../components/WrapperCard"
-import WrapperFlex from "../../components/WrapperFlex"
-import { Creators as UserActions } from "../../store/ducks/user"
-import "./customStyles.css"
+import { format, subDays } from "date-fns";
+import React, { useEffect, useState } from "react";
+import { Collapse } from "react-collapse";
+import "react-datepicker/dist/react-datepicker.css";
+import { FaPlus } from "react-icons/fa";
+import { MdArrowDownward } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Button from "../../components/Button";
+import Card from "../../components/Card";
+import ContainerMain from "../../components/ContainerMain";
+import Content from "../../components/Content";
+import ContentWrapper from "../../components/ContentWrapper";
+import ItemHeader from "../../components/ItemHeader";
+import Wrapper from "../../components/Wrapper";
+import WrapperCard from "../../components/WrapperCard";
+import WrapperFlex from "../../components/WrapperFlex";
+import { Creators as UserActions } from "../../store/ducks/user";
+import "./customStyles.css";
 
 export default function Home() {
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { data } = useSelector((state) => state.user)
+  const { data } = useSelector((state) => state.user);
 
-  const [collapse, setCollapse] = useState(false)
-  const [activeId, setActiveId] = useState(null)
+  const [collapse, setCollapse] = useState(false);
+  const [activeId, setActiveId] = useState(null);
 
   const handleAppointNow = () => {
-    const date = format(new Date(), "yyyy-MM-dd")
+    const date = format(new Date(), "yyyy-MM-dd");
 
-    dispatch(UserActions.createAppointmentRequest(date))
-  }
+    dispatch(UserActions.createAppointmentRequest(date));
+  };
 
   useEffect(() => {
-    const initialDate = format(subDays(new Date(), 30), "yyyy-MM-dd")
-    const finalDate = format(new Date(), "yyyy-MM-dd")
+    const initialDate = format(subDays(new Date(), 30), "yyyy-MM-dd");
+    const finalDate = format(new Date(), "yyyy-MM-dd");
 
-    dispatch(UserActions.getAppointmentsRequest(initialDate, finalDate))
-  }, [])
+    dispatch(UserActions.getAppointmentsRequest(initialDate, finalDate));
+  }, []);
 
   return (
     <ContainerMain>
@@ -88,7 +88,14 @@ export default function Home() {
               {data.map((d) => (
                 <Card key={d.id}>
                   <ItemHeader>
-                    Data: {format(new Date(d.data), "dd/MM/yyyy")}
+                    Data:
+                    {` ${d.data.substring(
+                      d.data.length,
+                      d.data.length - 2
+                    )}/${d.data.substring(
+                      d.data.length - 3,
+                      d.data.length - 5
+                    )}/${d.data.substring(0, 4)}`}
                   </ItemHeader>
                   <ItemHeader>
                     Horas trabalhadas: {d.horasTrabalhadas}
@@ -99,8 +106,8 @@ export default function Home() {
                   <div style={{ cursor: "pointer" }}>
                     <MdArrowDownward
                       onClick={() => {
-                        setActiveId(d.data)
-                        setCollapse(!collapse)
+                        setActiveId(d.data);
+                        setCollapse(!collapse);
                       }}
                     />
                   </div>
@@ -112,7 +119,7 @@ export default function Home() {
                             Marcação:{" "}
                             {format(
                               new Date(item.marcacao),
-                              "dd/MM/yyy - HH:mm"
+                              "dd/MM/yyyy - HH:mm"
                             )}
                           </ItemHeader>
                           <ItemHeader>
@@ -129,5 +136,5 @@ export default function Home() {
         )}
       </Wrapper>
     </ContainerMain>
-  )
+  );
 }
