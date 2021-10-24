@@ -76,7 +76,10 @@ export default function Home() {
               <Button onClick={() => handleAppointNow()}>
                 <FaPlus /> Bater ponto agora
               </Button>
-              <Button onClick={() => history.push("/register")}>
+              <Button
+                style={{ marginLeft: "15px" }}
+                onClick={() => history.push("/register")}
+              >
                 <FaPlus /> Adicionar Batida
               </Button>
             </WrapperFlex>
@@ -96,12 +99,12 @@ export default function Home() {
                   <div style={{ cursor: "pointer" }}>
                     <MdArrowDownward
                       onClick={() => {
-                        setActiveId(d.id)
+                        setActiveId(d.data)
                         setCollapse(!collapse)
                       }}
                     />
                   </div>
-                  <Collapse isOpened={collapse && activeId === d.id}>
+                  <Collapse isOpened={collapse && activeId === d.data}>
                     <ContentWrapper>
                       {d.itens.map((item) => (
                         <Content key={item.id}>
