@@ -14,8 +14,6 @@
 
 Este documento tem como objetivo descrever os requisitos para a elaboração de um projeto usado como avaliação da disciplina, portanto escolhemos montar uma aplicação de marcação de pontos de entradas e saídas, muito usado em empresas para registrar as horas trabalhadas de cada colaborador.
 
-**Descrição**
-
 #### Especificações
 
 ##### Backend - JAVA
